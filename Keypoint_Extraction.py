@@ -1,6 +1,7 @@
 #preparation here
 from ultralytics import YOLO
 import numpy as np
+from pydantic import BaseModel
 
 model = YOLO('yolov8n-pose.pt') 
 
@@ -82,12 +83,12 @@ def handle_request(req):
 	for result in results:
 		keypoints = result.keypoints.xyn.numpy() 
 		for keypoint in keypoints:
-			nose_x, nose_y = keypoint[0]
-			print("nose_x= ", nose_x , " and nose_y = ", nose_y)
+			if len(keypoint) <= 17:
+				keypoint_list = extract_keypoint(keypoint)
+				print(keypoint_list)
 
 	img = result.plot()
 	
 	resp = makeRespData(payload, img)
 	
 	return resp
-
