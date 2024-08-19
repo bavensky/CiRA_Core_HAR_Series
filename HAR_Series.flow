@@ -1,0 +1,348 @@
+{
+    "connections": [
+        {
+            "in_id": "{cca34fb9-1c60-437f-95ad-71c562b4237f}",
+            "in_index": 0,
+            "out_id": "{504095bc-f126-4dc8-9ef6-5228fb616dd1}",
+            "out_index": 0
+        },
+        {
+            "in_id": "{c00ce0b5-0fbf-4c49-8535-2a5cb9c97acc}",
+            "in_index": 0,
+            "out_id": "{7df459cd-e8f6-4ac9-ba66-e98a0491b377}",
+            "out_index": 0
+        },
+        {
+            "in_id": "{25f50453-c4fd-4c0d-914b-93176b587cf3}",
+            "in_index": 0,
+            "out_id": "{7df459cd-e8f6-4ac9-ba66-e98a0491b377}",
+            "out_index": 0
+        },
+        {
+            "in_id": "{7df459cd-e8f6-4ac9-ba66-e98a0491b377}",
+            "in_index": 0,
+            "out_id": "{cca34fb9-1c60-437f-95ad-71c562b4237f}",
+            "out_index": 0
+        }
+    ],
+    "nodes": [
+        {
+            "id": "{cca34fb9-1c60-437f-95ad-71c562b4237f}",
+            "model": {
+                "data": {
+                    "current_index": null,
+                    "images_count": null
+                },
+                "name": "ImageSlide",
+                "node_enable": true
+            },
+            "ngo": {
+                "comment": {
+                    "data": "",
+                    "show": false
+                }
+            },
+            "position": {
+                "fix": false,
+                "x": 75,
+                "y": 156
+            }
+        },
+        {
+            "id": "{504095bc-f126-4dc8-9ef6-5228fb616dd1}",
+            "model": {
+                "name": "ButtonRun"
+            },
+            "ngo": {
+                "comment": {
+                    "data": "",
+                    "show": false
+                }
+            },
+            "position": {
+                "fix": false,
+                "x": -49.59788999999992,
+                "y": 157.45702000000006
+            }
+        },
+        {
+            "id": "{c00ce0b5-0fbf-4c49-8535-2a5cb9c97acc}",
+            "model": {
+                "height": 318,
+                "name": "Debug",
+                "output_h": 0,
+                "output_v": 0,
+                "page_index": 2,
+                "payload_h": 0,
+                "payload_v": 0,
+                "width": 392
+            },
+            "ngo": {
+                "comment": {
+                    "data": "",
+                    "show": false
+                }
+            },
+            "position": {
+                "fix": false,
+                "x": 378.7649999999998,
+                "y": 161.69699999999997
+            }
+        },
+        {
+            "id": "{f4239b90-c81e-4854-b31c-84e95f40c146}",
+            "model": {
+                "data": {
+                    "auto_start": true,
+                    "caption": "POSE 2",
+                    "code": "#preparation here\nfrom ultralytics import YOLO\r\nimport numpy as np\r\n\r\nmodel = YOLO('yolov8n-pose.pt') \r\n\r\n\ndef handle_request(req):\n\tpayload, img = getReqData(req)\r\n\r\n\tresults = model.predict(img, save=False, conf=0.5)\r\n\t\r\n\tfor result in results:\r\n\t\tkeypoints = result.keypoints.xyn.numpy() \r\n\t\tfor keypoint in keypoints:\r\n\t\t\tnose_x, nose_y = keypoint[0]\r\n\t\t\tprint(\"nose_x= \", nose_x , \" and nose_y = \", nose_y)\n\r\n\timg = result.plot()\r\n\t\n\tresp = makeRespData(payload, img)\n\t\n\treturn resp\n\n",
+                    "editor_setting": {
+                        "autoComplete": {
+                            "caseSensitivity": true,
+                            "enable": true,
+                            "threshold": 3
+                        },
+                        "indent": {
+                            "enable": true
+                        },
+                        "theme": "Material Dark",
+                        "whitespace": {
+                            "enable": false,
+                            "size": 2
+                        }
+                    },
+                    "icon": ":/cira_bernoulli_python_plus/model/python_plus.png",
+                    "not_use_image": false,
+                    "python_path": "C:/Users/apiru/AppData/Local/Programs/Python/Python310/python.exe"
+                },
+                "name": "Python+",
+                "node_enable": true
+            },
+            "ngo": {
+                "comment": {
+                    "data": "plot yolopose",
+                    "show": true
+                }
+            },
+            "position": {
+                "fix": false,
+                "x": 170.95000000000005,
+                "y": -133.43999999999994
+            }
+        },
+        {
+            "id": "{47ded9d4-3a61-4519-b6de-40df2d5bb237}",
+            "model": {
+                "data": {
+                    "auto_start": true,
+                    "caption": "POSE 1",
+                    "code": "#preparation here\nfrom ultralytics import YOLO\r\n\r\n\r\nmodel = YOLO('yolov8n-pose.pt') \n\ndef handle_request(req):\n\tpayload, img = getReqData(req)\r\n\r\n\tresults = model.predict(img, save=False, conf=0.5)\r\n\t\r\n\tfor result in results:\r\n\t\tkeypoints = result.keypoints  # Extract keypoints\r\n\t\tprint(keypoints)\r\n\t\r\n\timg = result.plot()\r\n\t\n\tresp = makeRespData(payload, img)\n\t\n\treturn resp\n\n",
+                    "editor_setting": {
+                        "autoComplete": {
+                            "caseSensitivity": true,
+                            "enable": true,
+                            "threshold": 3
+                        },
+                        "indent": {
+                            "enable": true
+                        },
+                        "theme": "Material Dark",
+                        "whitespace": {
+                            "enable": false,
+                            "size": 2
+                        }
+                    },
+                    "icon": ":/cira_bernoulli_python_plus/model/python_plus.png",
+                    "not_use_image": false,
+                    "python_path": "C:/Users/apiru/AppData/Local/Programs/Python/Python310/python.exe"
+                },
+                "name": "Python+",
+                "node_enable": true
+            },
+            "ngo": {
+                "comment": {
+                    "data": "initial",
+                    "show": true
+                }
+            },
+            "position": {
+                "fix": false,
+                "x": 23.950000000000045,
+                "y": -134.43999999999994
+            }
+        },
+        {
+            "id": "{7df459cd-e8f6-4ac9-ba66-e98a0491b377}",
+            "model": {
+                "data": {
+                    "auto_start": true,
+                    "caption": "POSE 5",
+                    "code": "#preparation here\nfrom ultralytics import YOLO\r\nimport numpy as np\r\nfrom pydantic import BaseModel\r\n\r\nimport xlsxwriter\r\nimport openpyxl\r\nimport pandas as pd\r\n\r\nimport sys\r\nimport sklearn\r\n\r\nfrom sklearn.tree import DecisionTreeClassifier\r\n\r\nimport pickle\r\nimport cv2\r\n\r\nmodel = YOLO('yolov8n-pose.pt') \r\n\r\n# load pose model\r\nmodel_path = \"C:/Users/apiru/Desktop/devDataset/Human Activity Detection Dataset/Activity Dataset/Activity Dataset/pose_estimation.pickle\"\r\nclf_model = pickle.load(open(model_path, \"rb\"))\r\n\r\n\r\nclass GetKeypoint(BaseModel):\r\n\tNOSE:           int = 0\r\n\tLEFT_EYE:       int = 1\r\n\tRIGHT_EYE:      int = 2\r\n\tLEFT_EAR:       int = 3\r\n\tRIGHT_EAR:      int = 4\r\n\tLEFT_SHOULDER:  int = 5\r\n\tRIGHT_SHOULDER: int = 6\r\n\tLEFT_ELBOW:     int = 7\r\n\tRIGHT_ELBOW:    int = 8\r\n\tLEFT_WRIST:     int = 9\r\n\tRIGHT_WRIST:    int = 10\r\n\tLEFT_HIP:       int = 11\r\n\tRIGHT_HIP:      int = 12\r\n\tLEFT_KNEE:      int = 13\r\n\tRIGHT_KNEE:     int = 14\r\n\tLEFT_ANKLE:     int = 15\r\n\tRIGHT_ANKLE:    int = 16\r\n\r\nget_keypoint = GetKeypoint()\r\n\r\ndef extract_keypoint(keypoint):\r\n\t# nose\r\n\tnose_x, nose_y = keypoint[get_keypoint.NOSE]\r\n\t# eye\r\n\tleft_eye_x, left_eye_y = keypoint[get_keypoint.LEFT_EYE]\r\n\tright_eye_x, right_eye_y = keypoint[get_keypoint.RIGHT_EYE]\r\n\t# ear\r\n\tleft_ear_x, left_ear_y = keypoint[get_keypoint.LEFT_EAR]\r\n\tright_ear_x, right_ear_y = keypoint[get_keypoint.RIGHT_EAR]\r\n\t# shoulder\r\n\tleft_shoulder_x, left_shoulder_y = keypoint[get_keypoint.LEFT_SHOULDER]\r\n\tright_shoulder_x, right_shoulder_y = keypoint[get_keypoint.RIGHT_SHOULDER]\r\n\t# elbow\r\n\tleft_elbow_x, left_elbow_y = keypoint[get_keypoint.LEFT_ELBOW]\r\n\tright_elbow_x, right_elbow_y = keypoint[get_keypoint.RIGHT_ELBOW]\r\n\t# wrist\r\n\tleft_wrist_x, left_wrist_y = keypoint[get_keypoint.LEFT_WRIST]\r\n\tright_wrist_x, right_wrist_y = keypoint[get_keypoint.RIGHT_WRIST]\r\n\t# hip\r\n\tleft_hip_x, left_hip_y = keypoint[get_keypoint.LEFT_HIP]\r\n\tright_hip_x, right_hip_y = keypoint[get_keypoint.RIGHT_HIP]\r\n\t# knee\r\n\tleft_knee_x, left_knee_y = keypoint[get_keypoint.LEFT_KNEE]\r\n\tright_knee_x, right_knee_y = keypoint[get_keypoint.RIGHT_KNEE]\r\n\t# ankle\r\n\tleft_ankle_x, left_ankle_y = keypoint[get_keypoint.LEFT_ANKLE]\r\n\tright_ankle_x, right_ankle_y = keypoint[get_keypoint.RIGHT_ANKLE]\r\n\t\r\n\treturn [\r\n\t\tnose_x, nose_y,\r\n\t\tleft_eye_x, left_eye_y,\r\n\t\tright_eye_x, right_eye_y,\r\n\t\tleft_ear_x, left_ear_y,\r\n\t\tright_ear_x, right_ear_y,\r\n\t\tleft_shoulder_x, left_shoulder_y,\r\n\t\tright_shoulder_x, right_shoulder_y,\r\n\t\tleft_elbow_x, left_elbow_y,\r\n\t\tright_elbow_x, right_elbow_y,\r\n\t\tleft_wrist_x, left_wrist_y,\r\n\t\tright_wrist_x, right_wrist_y,\r\n\t\tleft_hip_x, left_hip_y,\r\n\t\tright_hip_x, right_hip_y,\r\n\t\tleft_knee_x, left_knee_y,\r\n\t\tright_knee_x, right_knee_y,        \r\n\t\tleft_ankle_x, left_ankle_y,\r\n\t\tright_ankle_x, right_ankle_y\r\n\t]\r\n\t\r\n\ndef handle_request(req):\n\tpayload, img = getReqData(req)\r\n\r\n\tresults = model.predict(img, save=False, conf=0.5)\r\n\t\r\n\tfor result in results:\r\n\t\tkeypoints = result.keypoints.xyn.numpy() \r\n\t\tfor keypoint in keypoints:\r\n\t\t\tif len(keypoint) <= 17:\r\n\t\t\t\tkeypoint_list = extract_keypoint(keypoint)\r\n\t\t\t\tprint(keypoint_list)\r\n\t\t\t\t\r\n\t\t\t\tnose = keypoint_list[0], keypoint_list[1]\r\n\t\t\t\tlEye = keypoint_list[2], keypoint_list[3]\r\n\t\t\t\trEye = keypoint_list[4], keypoint_list[5]\r\n\t\t\t\tlEar = keypoint_list[6], keypoint_list[7]\r\n\t\t\t\trEar = keypoint_list[8], keypoint_list[9]\r\n\t\t\t\tlShoulder = keypoint_list[10], keypoint_list[11]\r\n\t\t\t\trShoulder = keypoint_list[12], keypoint_list[13]\r\n\t\t\t\tlElbow = keypoint_list[14], keypoint_list[15]\r\n\t\t\t\trElbow = keypoint_list[16], keypoint_list[17]\r\n\t\t\t\tlWrist = keypoint_list[18], keypoint_list[19]\r\n\t\t\t\trWrist = keypoint_list[20], keypoint_list[21]\r\n\t\t\t\tlHip = keypoint_list[22], keypoint_list[23]\r\n\t\t\t\trHip = keypoint_list[24], keypoint_list[25]\r\n\t\t\t\tlKnee = keypoint_list[26], keypoint_list[27]\r\n\t\t\t\trKnee = keypoint_list[28], keypoint_list[29]\r\n\t\t\t\tlAnkle = keypoint_list[30], keypoint_list[31]\r\n\t\t\t\trAnkle = keypoint_list[32], keypoint_list[33]\r\n\t\t\t\t\r\n\t\t\t\tnewDataframe = pd.DataFrame({ \"pose\": [\"output\"], \r\n\t\t\t\t\"nose_x\": [str(nose[0])], \"nose_y\": [str(nose[1])], \r\n\t\t\t\t\"lEye_x\": [str(lEye[0])], \"lEye_y\": [str(lEye[1])],\r\n\t\t\t\t\"rEye_x\": [str(rEye[0])], \"rEye_y\": [str(rEye[1])], \r\n\t\t\t\t\"lEar_x\": [str(lEar[0])], \"lEar_y\": [str(lEar[1])],\r\n\t\t\t\t\"rEar_x\": [str(rEar[0])], \"rEar_y\": [str(rEar[1])],\r\n\t\t\t\t\"lShoulder_x\": [str(lShoulder[0])], \"lShoulder_y\": [str(lShoulder[1])],\r\n\t\t\t\t\"rShoulder_x\": [str(rShoulder[0])], \"rShoulder_y\": [str(lShoulder[1])],\r\n\t\t\t\t\"lElbow_x\": [str(lElbow[0])], \"lElbow_y\": [str(lElbow[1])],\r\n\t\t\t\t\"rElbow_x\": [str(rElbow[0])], \"rElbow_y\": [str(rElbow[1])],\r\n\t\t\t\t\"lWrist_x\": [str(lWrist[0])], \"lWrist_y\": [str(lWrist[1])],\r\n\t\t\t\t\"rWrist_x\": [str(rWrist[0])], \"rWrist_y\": [str(rWrist[1])],\r\n\t\t\t\t\"lHip_x\": [str(lHip[0])], \"lHip_y\": [str(lHip[1])],\r\n\t\t\t\t\"rHip_x\": [str(rHip[0])], \"rHip_y\": [str(rHip[1])],\r\n\t\t\t\t\"lKnee_x\": [str(lKnee[0])], \"lKnee_y\": [str(lKnee[1])],\r\n\t\t\t\t\"rKnee_x\": [str(rKnee[0])], \"rKnee_y\": [str(rKnee[1])],\r\n\t\t\t\t\"lAnkle_x\": [str(lAnkle[0])], \"lAnkle_y\": [str(lAnkle[1])],\r\n\t\t\t\t\"rAnkle_x\": [str(rAnkle[0])], \"rAnkle_y\": [str(rAnkle[1])]})\r\n\t\t\t\t\r\n\t\t\t\toutput_kp = newDataframe\r\n\t\t\t\toutput_kp = output_kp.fillna(0)\r\n\t\t\t\toutput_kp_X = output_kp.iloc[0: , 1:35]\r\n\t\t\t\toutput_kp_y = output_kp['pose']\r\n\t\t\t\t\r\n\t\t\t\tpredictions = clf_model.predict(output_kp_X)\r\n\t\t\t\tclass_labels = np.argmax(predictions, axis=1)\r\n\t\t\t\tlabel_map = {0: 'sitting', 1: 'standing', 2: 'walking'}\r\n\t\t\t\tactions = [label_map[label] for label in class_labels]\r\n\r\n\t\t\t\tpayload[\"pose_output\"] = actions\r\n\t\t\t\tprint(actions)\n\r\n\timg = result.plot()\r\n\t\n\tresp = makeRespData(payload, img)\n\t\n\treturn resp",
+                    "editor_setting": {
+                        "autoComplete": {
+                            "caseSensitivity": true,
+                            "enable": true,
+                            "threshold": 3
+                        },
+                        "indent": {
+                            "enable": true
+                        },
+                        "theme": "Material Dark",
+                        "whitespace": {
+                            "enable": false,
+                            "size": 2
+                        }
+                    },
+                    "icon": ":/cira_bernoulli_python_plus/model/python_plus.png",
+                    "not_use_image": false,
+                    "python_path": "C:/Users/apiru/AppData/Local/Programs/Python/Python310/python.exe"
+                },
+                "name": "Python+",
+                "node_enable": true
+            },
+            "ngo": {
+                "comment": {
+                    "data": "prediction",
+                    "show": true
+                }
+            },
+            "position": {
+                "fix": false,
+                "x": 222.95000000000005,
+                "y": 154.56000000000006
+            }
+        },
+        {
+            "id": "{dd839bdf-afe5-4eca-b0cc-7583b5bc673e}",
+            "model": {
+                "data": {
+                    "auto_start": true,
+                    "caption": "POSE 3",
+                    "code": "#preparation here\nfrom ultralytics import YOLO\r\nimport numpy as np\r\nfrom pydantic import BaseModel\r\n\r\nmodel = YOLO('yolov8n-pose.pt') \r\n\r\nclass GetKeypoint(BaseModel):\r\n\tNOSE:           int = 0\r\n\tLEFT_EYE:       int = 1\r\n\tRIGHT_EYE:      int = 2\r\n\tLEFT_EAR:       int = 3\r\n\tRIGHT_EAR:      int = 4\r\n\tLEFT_SHOULDER:  int = 5\r\n\tRIGHT_SHOULDER: int = 6\r\n\tLEFT_ELBOW:     int = 7\r\n\tRIGHT_ELBOW:    int = 8\r\n\tLEFT_WRIST:     int = 9\r\n\tRIGHT_WRIST:    int = 10\r\n\tLEFT_HIP:       int = 11\r\n\tRIGHT_HIP:      int = 12\r\n\tLEFT_KNEE:      int = 13\r\n\tRIGHT_KNEE:     int = 14\r\n\tLEFT_ANKLE:     int = 15\r\n\tRIGHT_ANKLE:    int = 16\r\n\r\nget_keypoint = GetKeypoint()\r\n\r\ndef extract_keypoint(keypoint):\r\n\t# nose\r\n\tnose_x, nose_y = keypoint[get_keypoint.NOSE]\r\n\t# eye\r\n\tleft_eye_x, left_eye_y = keypoint[get_keypoint.LEFT_EYE]\r\n\tright_eye_x, right_eye_y = keypoint[get_keypoint.RIGHT_EYE]\r\n\t# ear\r\n\tleft_ear_x, left_ear_y = keypoint[get_keypoint.LEFT_EAR]\r\n\tright_ear_x, right_ear_y = keypoint[get_keypoint.RIGHT_EAR]\r\n\t# shoulder\r\n\tleft_shoulder_x, left_shoulder_y = keypoint[get_keypoint.LEFT_SHOULDER]\r\n\tright_shoulder_x, right_shoulder_y = keypoint[get_keypoint.RIGHT_SHOULDER]\r\n\t# elbow\r\n\tleft_elbow_x, left_elbow_y = keypoint[get_keypoint.LEFT_ELBOW]\r\n\tright_elbow_x, right_elbow_y = keypoint[get_keypoint.RIGHT_ELBOW]\r\n\t# wrist\r\n\tleft_wrist_x, left_wrist_y = keypoint[get_keypoint.LEFT_WRIST]\r\n\tright_wrist_x, right_wrist_y = keypoint[get_keypoint.RIGHT_WRIST]\r\n\t# hip\r\n\tleft_hip_x, left_hip_y = keypoint[get_keypoint.LEFT_HIP]\r\n\tright_hip_x, right_hip_y = keypoint[get_keypoint.RIGHT_HIP]\r\n\t# knee\r\n\tleft_knee_x, left_knee_y = keypoint[get_keypoint.LEFT_KNEE]\r\n\tright_knee_x, right_knee_y = keypoint[get_keypoint.RIGHT_KNEE]\r\n\t# ankle\r\n\tleft_ankle_x, left_ankle_y = keypoint[get_keypoint.LEFT_ANKLE]\r\n\tright_ankle_x, right_ankle_y = keypoint[get_keypoint.RIGHT_ANKLE]\r\n\t\r\n\treturn [\r\n\t\tnose_x, nose_y,\r\n\t\tleft_eye_x, left_eye_y,\r\n\t\tright_eye_x, right_eye_y,\r\n\t\tleft_ear_x, left_ear_y,\r\n\t\tright_ear_x, right_ear_y,\r\n\t\tleft_shoulder_x, left_shoulder_y,\r\n\t\tright_shoulder_x, right_shoulder_y,\r\n\t\tleft_elbow_x, left_elbow_y,\r\n\t\tright_elbow_x, right_elbow_y,\r\n\t\tleft_wrist_x, left_wrist_y,\r\n\t\tright_wrist_x, right_wrist_y,\r\n\t\tleft_hip_x, left_hip_y,\r\n\t\tright_hip_x, right_hip_y,\r\n\t\tleft_knee_x, left_knee_y,\r\n\t\tright_knee_x, right_knee_y,        \r\n\t\tleft_ankle_x, left_ankle_y,\r\n\t\tright_ankle_x, right_ankle_y\r\n\t]\r\n\t\r\n\ndef handle_request(req):\n\tpayload, img = getReqData(req)\r\n\r\n\tresults = model.predict(img, save=False, conf=0.5)\r\n\t\r\n\tfor result in results:\r\n\t\tkeypoints = result.keypoints.xyn.numpy() \r\n\t\tfor keypoint in keypoints:\r\n\t\t\tif len(keypoint) <= 17:\r\n\t\t\t\tkeypoint_list = extract_keypoint(keypoint)\r\n\t\t\t\tprint(keypoint_list)\n\r\n\timg = result.plot()\r\n\t\n\tresp = makeRespData(payload, img)\n\t\n\treturn resp",
+                    "editor_setting": {
+                        "autoComplete": {
+                            "caseSensitivity": true,
+                            "enable": true,
+                            "threshold": 3
+                        },
+                        "indent": {
+                            "enable": true
+                        },
+                        "theme": "Material Dark",
+                        "whitespace": {
+                            "enable": false,
+                            "size": 2
+                        }
+                    },
+                    "icon": ":/cira_bernoulli_python_plus/model/python_plus.png",
+                    "not_use_image": false,
+                    "python_path": "C:/Users/apiru/AppData/Local/Programs/Python/Python310/python.exe"
+                },
+                "name": "Python+",
+                "node_enable": true
+            },
+            "ngo": {
+                "comment": {
+                    "data": "show keypoint",
+                    "show": true
+                }
+            },
+            "position": {
+                "fix": false,
+                "x": 336.95000000000005,
+                "y": -131.43999999999994
+            }
+        },
+        {
+            "id": "{d9ec3e7c-fc67-418d-8393-f5455e0def24}",
+            "model": {
+                "data": {
+                    "auto_start": true,
+                    "caption": "POSE 4",
+                    "code": "#preparation here\nfrom ultralytics import YOLO\r\nimport numpy as np\r\nfrom pydantic import BaseModel\r\n\r\nimport xlsxwriter\r\nimport pandas as pd\r\n\r\nmodel = YOLO('yolov8n-pose.pt') \r\n\r\n#keypoint_path = 'C:/Users/.../Activity Dataset/sitting.xlsx'\t\r\n\r\n\r\n\r\nkeypoint_path = 'C:/Users/apiru/Desktop/devDataset/Human Activity Detection Dataset/Activity Dataset/Activity Dataset/walking.xlsx'\t\r\n\r\n\r\nclass GetKeypoint(BaseModel):\r\n\tNOSE:           int = 0\r\n\tLEFT_EYE:       int = 1\r\n\tRIGHT_EYE:      int = 2\r\n\tLEFT_EAR:       int = 3\r\n\tRIGHT_EAR:      int = 4\r\n\tLEFT_SHOULDER:  int = 5\r\n\tRIGHT_SHOULDER: int = 6\r\n\tLEFT_ELBOW:     int = 7\r\n\tRIGHT_ELBOW:    int = 8\r\n\tLEFT_WRIST:     int = 9\r\n\tRIGHT_WRIST:    int = 10\r\n\tLEFT_HIP:       int = 11\r\n\tRIGHT_HIP:      int = 12\r\n\tLEFT_KNEE:      int = 13\r\n\tRIGHT_KNEE:     int = 14\r\n\tLEFT_ANKLE:     int = 15\r\n\tRIGHT_ANKLE:    int = 16\r\n\r\nget_keypoint = GetKeypoint()\r\n\r\ndef extract_keypoint(keypoint):\r\n\t# nose\r\n\tnose_x, nose_y = keypoint[get_keypoint.NOSE]\r\n\t# eye\r\n\tleft_eye_x, left_eye_y = keypoint[get_keypoint.LEFT_EYE]\r\n\tright_eye_x, right_eye_y = keypoint[get_keypoint.RIGHT_EYE]\r\n\t# ear\r\n\tleft_ear_x, left_ear_y = keypoint[get_keypoint.LEFT_EAR]\r\n\tright_ear_x, right_ear_y = keypoint[get_keypoint.RIGHT_EAR]\r\n\t# shoulder\r\n\tleft_shoulder_x, left_shoulder_y = keypoint[get_keypoint.LEFT_SHOULDER]\r\n\tright_shoulder_x, right_shoulder_y = keypoint[get_keypoint.RIGHT_SHOULDER]\r\n\t# elbow\r\n\tleft_elbow_x, left_elbow_y = keypoint[get_keypoint.LEFT_ELBOW]\r\n\tright_elbow_x, right_elbow_y = keypoint[get_keypoint.RIGHT_ELBOW]\r\n\t# wrist\r\n\tleft_wrist_x, left_wrist_y = keypoint[get_keypoint.LEFT_WRIST]\r\n\tright_wrist_x, right_wrist_y = keypoint[get_keypoint.RIGHT_WRIST]\r\n\t# hip\r\n\tleft_hip_x, left_hip_y = keypoint[get_keypoint.LEFT_HIP]\r\n\tright_hip_x, right_hip_y = keypoint[get_keypoint.RIGHT_HIP]\r\n\t# knee\r\n\tleft_knee_x, left_knee_y = keypoint[get_keypoint.LEFT_KNEE]\r\n\tright_knee_x, right_knee_y = keypoint[get_keypoint.RIGHT_KNEE]\r\n\t# ankle\r\n\tleft_ankle_x, left_ankle_y = keypoint[get_keypoint.LEFT_ANKLE]\r\n\tright_ankle_x, right_ankle_y = keypoint[get_keypoint.RIGHT_ANKLE]\r\n\t\r\n\treturn [\r\n\t\tnose_x, nose_y,\r\n\t\tleft_eye_x, left_eye_y,\r\n\t\tright_eye_x, right_eye_y,\r\n\t\tleft_ear_x, left_ear_y,\r\n\t\tright_ear_x, right_ear_y,\r\n\t\tleft_shoulder_x, left_shoulder_y,\r\n\t\tright_shoulder_x, right_shoulder_y,\r\n\t\tleft_elbow_x, left_elbow_y,\r\n\t\tright_elbow_x, right_elbow_y,\r\n\t\tleft_wrist_x, left_wrist_y,\r\n\t\tright_wrist_x, right_wrist_y,\r\n\t\tleft_hip_x, left_hip_y,\r\n\t\tright_hip_x, right_hip_y,\r\n\t\tleft_knee_x, left_knee_y,\r\n\t\tright_knee_x, right_knee_y,        \r\n\t\tleft_ankle_x, left_ankle_y,\r\n\t\tright_ankle_x, right_ankle_y\r\n\t]\r\n\t\r\n\ndef handle_request(req):\n\tpayload, img = getReqData(req)\r\n\treadDataframe = pd.read_excel(keypoint_path, engine='openpyxl')\r\n\r\n\tresults = model.predict(img, save=False, conf=0.5)\r\n\t\r\n\tfor result in results:\r\n\t\tkeypoints = result.keypoints.xyn.numpy() \r\n\t\tfor keypoint in keypoints:\r\n\t\t\tif len(keypoint) <= 17:\r\n\t\t\t\tkeypoint_list = extract_keypoint(keypoint)\r\n\t\t\t\tprint(keypoint_list)\r\n\t\t\t\t\r\n\t\t\t\tnose = keypoint_list[0], keypoint_list[1]\r\n\t\t\t\tlEye = keypoint_list[2], keypoint_list[3]\r\n\t\t\t\trEye = keypoint_list[4], keypoint_list[5]\r\n\t\t\t\tlEar = keypoint_list[6], keypoint_list[7]\r\n\t\t\t\trEar = keypoint_list[8], keypoint_list[9]\r\n\t\t\t\tlShoulder = keypoint_list[10], keypoint_list[11]\r\n\t\t\t\trShoulder = keypoint_list[12], keypoint_list[13]\r\n\t\t\t\tlElbow = keypoint_list[14], keypoint_list[15]\r\n\t\t\t\trElbow = keypoint_list[16], keypoint_list[17]\r\n\t\t\t\tlWrist = keypoint_list[18], keypoint_list[19]\r\n\t\t\t\trWrist = keypoint_list[20], keypoint_list[21]\r\n\t\t\t\tlHip = keypoint_list[22], keypoint_list[23]\r\n\t\t\t\trHip = keypoint_list[24], keypoint_list[25]\r\n\t\t\t\tlKnee = keypoint_list[26], keypoint_list[27]\r\n\t\t\t\trKnee = keypoint_list[28], keypoint_list[29]\r\n\t\t\t\tlAnkle = keypoint_list[30], keypoint_list[31]\r\n\t\t\t\trAnkle = keypoint_list[32], keypoint_list[33]\r\n\t\t\t\t\r\n\t\t\t\tnewDataframe = pd.DataFrame({ \"pose\": [\"walking\"], \r\n\t\t\t\t\"nose_x\": [str(nose[0])], \"nose_y\": [str(nose[1])], \r\n\t\t\t\t\"lEye_x\": [str(lEye[0])], \"lEye_y\": [str(lEye[1])],\r\n\t\t\t\t\"rEye_x\": [str(rEye[0])], \"rEye_y\": [str(rEye[1])], \r\n\t\t\t\t\"lEar_x\": [str(lEar[0])], \"lEar_y\": [str(lEar[1])],\r\n\t\t\t\t\"rEar_x\": [str(rEar[0])], \"rEar_y\": [str(rEar[1])],\r\n\t\t\t\t\"lShoulder_x\": [str(lShoulder[0])], \"lShoulder_y\": [str(lShoulder[1])],\r\n\t\t\t\t\"rShoulder_x\": [str(rShoulder[0])], \"rShoulder_y\": [str(lShoulder[1])],\r\n\t\t\t\t\"lElbow_x\": [str(lElbow[0])], \"lElbow_y\": [str(lElbow[1])],\r\n\t\t\t\t\"rElbow_x\": [str(rElbow[0])], \"rElbow_y\": [str(rElbow[1])],\r\n\t\t\t\t\"lWrist_x\": [str(lWrist[0])], \"lWrist_y\": [str(lWrist[1])],\r\n\t\t\t\t\"rWrist_x\": [str(rWrist[0])], \"rWrist_y\": [str(rWrist[1])],\r\n\t\t\t\t\"lHip_x\": [str(lHip[0])], \"lHip_y\": [str(lHip[1])],\r\n\t\t\t\t\"rHip_x\": [str(rHip[0])], \"rHip_y\": [str(rHip[1])],\r\n\t\t\t\t\"lKnee_x\": [str(lKnee[0])], \"lKnee_y\": [str(lKnee[1])],\r\n\t\t\t\t\"rKnee_x\": [str(rKnee[0])], \"rKnee_y\": [str(rKnee[1])],\r\n\t\t\t\t\"lAnkle_x\": [str(lAnkle[0])], \"lAnkle_y\": [str(lAnkle[1])],\r\n\t\t\t\t\"rAnkle_x\": [str(rAnkle[0])], \"rAnkle_y\": [str(rAnkle[1])]})\r\n\t\t\t\t\r\n\t\t\t\tconC = pd.concat([readDataframe, newDataframe],  axis=0)\r\n\t\t\t\tconC.to_excel(keypoint_path, index=False, engine='openpyxl')\n\r\n\timg = result.plot()\r\n\t\n\tresp = makeRespData(payload, img)\n\t\n\treturn resp",
+                    "editor_setting": {
+                        "autoComplete": {
+                            "caseSensitivity": true,
+                            "enable": true,
+                            "threshold": 3
+                        },
+                        "indent": {
+                            "enable": true
+                        },
+                        "theme": "Material Dark",
+                        "whitespace": {
+                            "enable": false,
+                            "size": 2
+                        }
+                    },
+                    "icon": ":/cira_bernoulli_python_plus/model/python_plus.png",
+                    "not_use_image": false,
+                    "python_path": "C:/Users/apiru/AppData/Local/Programs/Python/Python310/python.exe"
+                },
+                "name": "Python+",
+                "node_enable": true
+            },
+            "ngo": {
+                "comment": {
+                    "data": "extracting keypoint",
+                    "show": true
+                }
+            },
+            "position": {
+                "fix": false,
+                "x": 498.1500000000002,
+                "y": -132.53999999999996
+            }
+        },
+        {
+            "id": "{25f50453-c4fd-4c0d-914b-93176b587cf3}",
+            "model": {
+                "height": 88,
+                "label": {
+                    "bold": true,
+                    "console": "",
+                    "font": "Ubuntu",
+                    "key": "label = payload.pose_output",
+                    "size": 30,
+                    "widget_state": {
+                        "editor_setting": {
+                            "autoComplete": {
+                                "caseSensitivity": true,
+                                "enable": true,
+                                "threshold": 3
+                            },
+                            "indent": {
+                                "enable": true
+                            },
+                            "theme": "Material Dark",
+                            "whitespace": {
+                                "enable": false,
+                                "size": 2
+                            }
+                        }
+                    }
+                },
+                "name": "Label",
+                "node_enable": true,
+                "width": 201
+            },
+            "ngo": {
+                "comment": {
+                    "data": "",
+                    "show": false
+                }
+            },
+            "position": {
+                "fix": false,
+                "x": 383.29999999999995,
+                "y": 36.60000000000005
+            }
+        }
+    ],
+    "scene_data": {
+        "flow_view_fix": false,
+        "flow_view_pos_x": 50.767757999999375,
+        "flow_view_pos_y": -35.62338699999907,
+        "flow_view_zoom_factor": 1
+    }
+}
